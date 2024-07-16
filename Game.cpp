@@ -221,7 +221,7 @@ void Game::AIGo()
 		{
 			if (vcfPoint.x == -1)
 			{
-				deepeningMinimax(6, 6);
+				deepeningMinimax(5, 5);
 				np = BestPoint;
 			}
 			else
@@ -325,8 +325,8 @@ void Game::AIGo()
 	sprintf(xy, "¡¾%c,%d¡¿", np.y + 65, 15 - np.x);
 	outtextxy(560, 250, xy);
 	DrawPiece(m_computercolor, (np.y + 1) * 30, (np.x + 1) * 30);*/
-	go(np.x, np.y, m_computercolor);
 	std::cout << "AILuoZI" << " " << np.x << " " << np.y;
+	go(np.x, np.y, m_computercolor);
 	//PlayerGo();
 }
 

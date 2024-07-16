@@ -92,7 +92,7 @@ void TerminalMonitor::HandleMassage(const int& mode, const string& input)
 	case 3: 
 	{	
 		// 我取消了
-		this->Board->resetboard();
+		
 		cout << "ReSet OK";
 		break;
 	}
@@ -114,13 +114,13 @@ void TerminalMonitor::HandleMassage(const int& mode, const string& input)
 			AI->defense = 1;
 			AI->first = "Com";
 			AI->next = "Per";
-			this->Board->printboard();
+			//this->Board->printboard();
 			//AI->AIGo();
 		}
 		else
 		{
 			//###################对方执黑
-			this->Board->printboard();
+			//this->Board->printboard();
 			AI->m_computercolor = white;
 			AI->m_personcolor = black;
 			AI->attack = 3;
@@ -129,6 +129,7 @@ void TerminalMonitor::HandleMassage(const int& mode, const string& input)
 			AI->next = "Com";
 			
 		}
+		this->Board->resetboard();
 		cout << "AIStart OK";
 		break;
 	}
