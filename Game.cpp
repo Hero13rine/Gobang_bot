@@ -128,7 +128,7 @@ void Game::go(int nx, int ny, int color) //½ö½öÊÇÂä×Ó£¬²»¸ºÔğÅĞ¶ÏÆåÅÌ£¬ÅĞ¶ÏÆåÅÌÔ
 		winner = 2;
 		SaveChessboard();
 		system("pause");
-		exit(0);
+		//exit(0);
 	}
 	if (Game::StateCheck(np, Board[nx][ny]) == BWIN)
 	{
@@ -136,7 +136,7 @@ void Game::go(int nx, int ny, int color) //½ö½öÊÇÂä×Ó£¬²»¸ºÔğÅĞ¶ÏÆåÅÌ£¬ÅĞ¶ÏÆåÅÌÔ
 		winner = m_computercolor == black ? 1 : 2;
 		SaveChessboard();
 		system("pause");
-		exit(0);
+		//exit(0);
 	}
 	else if (Game::StateCheck(np, Board[nx][ny]) == WWIN)
 	{
@@ -144,7 +144,7 @@ void Game::go(int nx, int ny, int color) //½ö½öÊÇÂä×Ó£¬²»¸ºÔğÅĞ¶ÏÆåÅÌ£¬ÅĞ¶ÏÆåÅÌÔ
 		winner = 2;
 		SaveChessboard();
 		system("pause");
-		exit(0);
+		//exit(0);
 	}
 }
 
