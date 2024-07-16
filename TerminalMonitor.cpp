@@ -114,13 +114,13 @@ void TerminalMonitor::HandleMassage(const int& mode, const string& input)
 			AI->defense = 1;
 			AI->first = "Com";
 			AI->next = "Per";
-			this->Board->printboard();
+			//this->Board->printboard();
 			//AI->AIGo();
 		}
 		else
 		{
 			//###################¶Ô·½Ö´ºÚ
-			this->Board->printboard();
+			//this->Board->printboard();
 			AI->m_computercolor = white;
 			AI->m_personcolor = black;
 			AI->attack = 3;
