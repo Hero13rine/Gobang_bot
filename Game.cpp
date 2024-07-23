@@ -113,8 +113,16 @@ Point Game::getBestPointformList(vector<Point> PointList)
 }
 
 void Game::go(int nx, int ny, int color) //仅仅是落子，不负责判断棋盘，判断棋盘在AIgo 和 Player go 里
-{
+{;
 	Board[nx][ny] = color;
+	if (nx > mx)//确定棋盘有效最大范围
+		mx = nx;
+	if (ny > my)
+		my = ny;
+	if (nx < minx)
+		minx = nx;
+	if (ny < miny)
+		miny = ny;
 	//printboard();
 	Point np(nx, ny);
 	np.color = color;
@@ -163,8 +171,6 @@ void Game::PlayerGo(int nx, int ny)
 	{*/
 		if (CanPut(row, col))
 		{
-			LastPlayerStep.x = row;
-			LastPlayerStep.y = col;
 			go(row, col, m_personcolor);
 			//AIGo();
 		}

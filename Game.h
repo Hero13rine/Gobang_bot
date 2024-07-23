@@ -5,6 +5,7 @@
 #include"Open.h"
 #include<fstream>
 #include<iostream>
+#include <unordered_map>
 
 class Game :public Open
 {
@@ -120,11 +121,11 @@ public:
 	vector<Point> killPoint;
 	bool isThreeSteps = true;
 	bool isFiveSteps = true;
-	int N5 = 3;//五手N打
+	int N5 = 2;//五手N打
 	int winner = 0;
 	string first, next; //悔棋
 	int step = 0;
-
+	int minx = 0, miny = 0, mx = 0, my = 0;//记录当前棋盘最大有效范围
 
 
 
