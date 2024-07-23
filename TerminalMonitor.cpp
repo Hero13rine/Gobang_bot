@@ -233,23 +233,6 @@ void TerminalMonitor::HandleMassage(const int& mode, const string& input)
 }
 
 
-Point TerminalMonitor::GetP2LuoZI()
-{
-	//获取最新落子
-	//pair<int, int> pos 格式不能改动；AI->findBestChess(Board, Player2);需要改动。
-	Game a;
-	Point pos = a.best();
-	//下面这句不能改动
-	Board[pos.y][pos.x] = Player2;
-
-	//需要改动：
-	a.go(pos.y, pos.x, Player2);
-	a.StateCheck(pos, black);
-	BangP2ChessStep += 1;
-	return pos;
-}
-
-
 //==================================================规则相关5手N打===================================================//
 
 int TerminalMonitor::GetBBP2LuoZINum()
@@ -257,6 +240,8 @@ int TerminalMonitor::GetBBP2LuoZINum()
 	int num = 2;
 	//添加你的n打数目2-4，demo中固定返回2
 	BBP2NPNum = num;
+	//本程序设置五手n打的接口
+	this->AI->setFiveStepsWay(num);
 	//添加你的n打坐标,放到一个向量中，我在demo中注册的参数为  BBP2NPPos
 	CreatBBP2Pos(BBP2NPNum);
 	if (num > 1 && num < 5) return BBP2NPNum;
@@ -266,11 +251,7 @@ int TerminalMonitor::GetBBP2LuoZINum()
 void TerminalMonitor::CreatBBP2Pos(int num)
 {
 	//添加你的n打坐标,放到一个向量中，我在demo中注册的参数为  BBP2NPPos
-	Point pt1(1,1), pt2(1,2);
-
-	BBP2NPPos.push_back(pt1);
-
-	BBP2NPPos.push_back(pt2);
+	BBP2NPPos = AI->FiveStepsBlackPointRet();
 }
 
 Point TerminalMonitor::GetBBP2LuoZI()
@@ -285,13 +266,10 @@ Point TerminalMonitor::GetBBP2LuoZI()
 bool TerminalMonitor::SetBBP2Record(int x, int y)
 {
 	Point P2(x,y);
-	Game a;
-	if (!std::count(BBP2NPPos.begin(), BBP2NPPos.end(), P2)) return false;
+	//if (!std::count(BBP2NPPos.begin(), BBP2NPPos.end(), P2)) return false;
 	//在后台棋盘上记录留下的黑子，gomoku::MAP_PLAYER_ONE可以改成你的黑子标志
-	Board[y][x] = black;
 	//通知算法文件，留下的黑子，gomoku::MAP_PLAYER_ONE可以改成你的黑子标志
-	a.go(y, x, black);
-	a.StateCheck(P2, black);
+	AI->go(x, y, black);
 	BangP2ChessStep += 1;
 	return true;
 }
@@ -308,9 +286,10 @@ Point TerminalMonitor::GetBWP2Selct()
 	//白方返回选择的黑子坐标
 	Point a;
 	a.x = -1; a.y = -1;
+	// 进入minimax;
+	a = AI->minimax(BWP1NPPos);
 	BangP2ChessStep += 1;
-	if (BWP1NPPos.size() > 1) return BWP1NPPos[1];
-	else return  a;
+	return a;
 }
 
 vector<int> TerminalMonitor::ExtractNumInMassage(const string& str)

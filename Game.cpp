@@ -340,8 +340,6 @@ void Game::AIGo()
 //{
 //	if (m_computercolor == black)//如果电脑执黑，则输出n个点交给对手判断
 //	{
-//		clock_t begin, end;
-//		begin = clock();//计时起点
 //		Point BestMove(-1, -1);//最好的招法
 //		int depth = DEPTH1;
 //		int BestValue = -99999999;
@@ -449,63 +447,7 @@ void Game::AIGo()
 //			sort(Nlist.begin(), Nlist.end(), cmpStateScore);
 //			Nlist.assign(Nlist.begin(), Nlist.begin() + n);
 //		}
-//		
-//
-//		/*minimax3(0, 6, -99999999, 99999999, n);
-//
-//		Nlist = FiveBestPointList;*/
-//		//输出n个点,让玩家选择
-//		for (vector<Point>::iterator it = Nlist.begin(); it != Nlist.end(); it++)
-//		{
-//			setfillcolor(BLACK);
-//			solidcircle(((*it).y + 1) * 30, ((*it).x + 1) * 30, 13);//下棋
-//		}
-//		end = clock();//计时终点
-//		CalculateTime(begin, end);
-//		int fx, fy;
-//		HWND hWnd = GetHWnd();
-//		outtextxy(460, 250, "请选择您要下的棋");
-//		ExMessage m2;//鼠标(新版)
-//		while (1)
-//		{
-//		here:
-//			m2 = getmessage(EM_MOUSE);//检测鼠标信息
-//			if (m2.message == WM_LBUTTONDOWN && m2.x <= 450 && m2.y <= 450)//左键
-//			{
-//				IdentifyPoint(m2.x, m2.y);
-//				fy = xx / 30 - 1;
-//				fx = yy / 30 - 1;
-//				//合法判断
-//				int flag = 0;
-//				for (vector<Point>::iterator it = Nlist.begin(); it != Nlist.end(); it++)
-//				{
-//					if ((*it).x == fx && (*it).y == fy)
-//					{
-//						flag = 1;
-//						break;
-//					}
-//				}
-//				if (flag == 0)
-//				{
-//					HWND hWnd = GetHWnd();
-//					MessageBox(hWnd, "该点不可下", "警告", MB_OK);//设置模态对话框
-//					goto here;
-//				}
-//				DrawPiece(black, xx, yy);
-//				for (vector<Point>::iterator it = Nlist.begin(); it != Nlist.end(); it++)
-//				{
-//					if ((*it).x == fx && (*it).y == fy)
-//					{
-//						continue;
-//					}
-//					clearcircle(((*it).y + 1) * 30, ((*it).x + 1) * 30, 13);
-//					line(((*it).y + 1) * 30 - 13, ((*it).x + 1) * 30, ((*it).y + 1) * 30 + 13, ((*it).x + 1) * 30);//将去除的横线补上
-//					line(((*it).y + 1) * 30, ((*it).x + 1) * 30 - 13, ((*it).y + 1) * 30, ((*it).x + 1) * 30 + 13);//将去除的竖线补上
-//				}
-//				break;
-//			}
-//		}
-//		clearrectangle(460, 250, 600, 350);
+//		//对方选子过程
 //		go(fx, fy, black);
 //		LastComStep.x = fx;
 //		LastComStep.y = fy;
@@ -537,6 +479,9 @@ void Game::AIGo()
 //			pointList.push_back(np);
 //		}
 //		clearrectangle(460, 220, 700, 320);
+//		
+//		//对方下子过程
+//		
 //		// 进入minimax;
 //		Point p = minimax(pointList);
 //		for (int i = 0; i < n; i++)
@@ -554,85 +499,199 @@ void Game::AIGo()
 //
 //}
 
-bool Game::exchange() {
-	int i, j, x1, y1, x2, y2, x3, y3;
-	int ret = 0;
-	//找到开局落的三个子
-	for (i = 0; i < 15; i++)
-	{
-		for (j = 0; j < 15; j++)
-		{
-			if (Board[i][j] == black && i == 7 && j == 7)
-			{
-				x1 = i; y1 = j;
 
-			}
-			if (Board[i][j] == black && (i != 7 || j != 7))
+vector<Point> Game::FiveStepsBlackPointRet()
+{
+	int n = this->N5;
+	Point BestMove(-1, -1);//最好的招法
+	int depth = DEPTH1;
+	int BestValue = -99999999;
+	//BestMove.x = -1;//初始化为非法的点
+	vector<Point> Nlist;
+	//瑞星五手n打
+	if (Board[7][7] == black && Board[6][7] == white && Board[9][7] == black && N5 == 2)
+	{
+		if (Board[5][8] == white)
+		{
+			Point p1(8, 8);
+			Nlist.push_back(p1);
+			Point p2(9, 8);
+			Nlist.push_back(p2);
+		}
+		else if (Board[5][6] == white)
+		{
+			Point p1(8, 6);
+			Nlist.push_back(p1);
+			Point p2(9, 6);
+			Nlist.push_back(p2);
+		}
+		else if (Board[6][8] == white)
+		{
+			Point p1(8, 8);
+			Nlist.push_back(p1);
+			Point p2(6, 6);
+			Nlist.push_back(p2);
+		}
+		else if (Board[6][6] == white)
+		{
+			Point p1(6, 8);
+			Nlist.push_back(p1);
+			Point p2(8, 6);
+			Nlist.push_back(p2);
+		}
+		else if (Board[7][8] == white)
+		{
+			Point p1(8, 8);
+			Nlist.push_back(p1);
+			Point p2(8, 9);
+			Nlist.push_back(p2);
+		}
+		else if (Board[7][6] == white)
+		{
+			Point p1(8, 6);
+			Nlist.push_back(p1);
+			Point p2(8, 5);
+			Nlist.push_back(p2);
+		}
+		else if (Board[8][8] == white)
+		{
+			Point p1(8, 6);
+			Nlist.push_back(p1);
+			Point p2(10, 7);
+			Nlist.push_back(p2);
+		}
+		else if (Board[8][6] == white)
+		{
+			Point p1(8, 8);
+			Nlist.push_back(p1);
+			Point p2(10, 7);
+			Nlist.push_back(p2);
+		}
+		else
+		{
+			for (int i = 5; i < 10; i++)
 			{
-				x3 = i; y3 = j;
+				for (int j = 5; j < 10; j++)
+				{
+					if (Board[i][j] == EMPTY)
+					{
+						m_nodes++;
+						Board[i][j] = m_computercolor;
+						Point ap(i, j);
+						int value = minSearch(BestValue, depth);
+						ap.stateScore = value;
+						Nlist.push_back(ap);
+						Board[i][j] = EMPTY;
+					}
+				}
 			}
-			if (Board[i][j] == white)
-			{
-				x2 = i; y2 = j;
-			}
+			sort(Nlist.begin(), Nlist.end(), cmpStateScore);
+			Nlist.assign(Nlist.begin(), Nlist.begin() + n);
 		}
 	}
-	if (isShuxing(x1, y1, x2, y2, x3, y3) && N5 == 2)
+	else
 	{
-		return 0;
+		for (int i = 5; i < 10; i++)
+		{
+			for (int j = 5; j < 10; j++)
+			{
+				if (Board[i][j] == EMPTY)
+				{
+					m_nodes++;
+					Board[i][j] = m_computercolor;
+					Point ap(i, j);
+					int value = minSearch(BestValue, depth);
+					ap.stateScore = value;
+					Nlist.push_back(ap);
+					Board[i][j] = EMPTY;
+				}
+			}
+		}
+		sort(Nlist.begin(), Nlist.end(), cmpStateScore);
+		Nlist.assign(Nlist.begin(), Nlist.begin() + n);
 	}
-	 if ((isHuayue(x1, y1, x2, y2, x3, y3) ||
-		isPuyue(x1, y1, x2, y2, x3, y3) ||
-		isYunyue(x1, y1, x2, y2, x3, y3) ||
-		isYuyue(x1, y1, x2, y2, x3, y3) ||
-		isXiyue(x1, y1, x2, y2, x3, y3) ||
-		isXiayue(x1, y1, x2, y2, x3, y3) ||
-		isShuiyue(x1, y1, x2, y2, x3, y3) ||
-		isLanyue(x1, y1, x2, y2, x3, y3) ||
-		isJinxing(x1, y1, x2, y2, x3, y3) ||
-		isHengxing(x1, y1, x2, y2, x3, y3) ||
-		isHanxing(x1, y1, x2, y2, x3, y3) ||
-		isMingxing(x1, y1, x2, y2, x3, y3)) && N5 <= 4)
-	{
-		//换手
-		return 1;
-	}
-	else if ((isXieyue(x1, y1, x2, y2, x3, y3) ||
-		isQiuyue(x1, y1, x2, y2, x3, y3) ||
-		isSongyue(x1, y1, x2, y2, x3, y3) ||
-		isMingyue(x1, y1, x2, y2, x3, y3) ||
-		isYinyue(x1, y1, x2, y2, x3, y3) ||
-		isCanyue(x1, y1, x2, y2, x3, y3) ||
-		isXinyue(x1, y1, x2, y2, x3, y3) ||
-		isShanyue(x1, y1, x2, y2, x3, y3)) && N5 <= 3)
-	{
-		//换手
-		return 1;
-	}
-	else if ((isYouxing(x1, y1, x2, y2, x3, y3) ||
-		isHuixing(x1, y1, x2, y2, x3, y3)) && N5 == 1)
-	{
-		//换手
-		return 1;
-	}
-	else if ((isLiuxing(x1, y1, x2, y2, x3, y3) ||
-		isChangxing(x1, y1, x2, y2, x3, y3)) && N5 == 1)
-	{
-		//换手
-		return 1;
-	}
-	else if ((isRuixing(x1, y1, x2, y2, x3, y3) ||
-		isShuxing(x1, y1, x2, y2, x3, y3)) && N5 <= 2)
-	{
-		//换手
-		return 1;
-	}
-	else {
-		//不换手
-		return 0;
-	}
-
+	return Nlist;
 }
+
+//bool Game::exchange() {
+//	int i, j, x1, y1, x2, y2, x3, y3;
+//	int ret = 0;
+//	//找到开局落的三个子
+//	for (i = 0; i < 15; i++)
+//	{
+//		for (j = 0; j < 15; j++)
+//		{
+//			if (Board[i][j] == black && i == 7 && j == 7)
+//			{
+//				x1 = i; y1 = j;
+//
+//			}
+//			if (Board[i][j] == black && (i != 7 || j != 7))
+//			{
+//				x3 = i; y3 = j;
+//			}
+//			if (Board[i][j] == white)
+//			{
+//				x2 = i; y2 = j;
+//			}
+//		}
+//	}
+//	if (isShuxing(x1, y1, x2, y2, x3, y3) && N5 == 2)
+//	{
+//		return 0;
+//	}
+//	 if ((isHuayue(x1, y1, x2, y2, x3, y3) ||
+//		isPuyue(x1, y1, x2, y2, x3, y3) ||
+//		isYunyue(x1, y1, x2, y2, x3, y3) ||
+//		isYuyue(x1, y1, x2, y2, x3, y3) ||
+//		isXiyue(x1, y1, x2, y2, x3, y3) ||
+//		isXiayue(x1, y1, x2, y2, x3, y3) ||
+//		isShuiyue(x1, y1, x2, y2, x3, y3) ||
+//		isLanyue(x1, y1, x2, y2, x3, y3) ||
+//		isJinxing(x1, y1, x2, y2, x3, y3) ||
+//		isHengxing(x1, y1, x2, y2, x3, y3) ||
+//		isHanxing(x1, y1, x2, y2, x3, y3) ||
+//		isMingxing(x1, y1, x2, y2, x3, y3)) && N5 <= 4)
+//	{
+//		//换手
+//		return 1;
+//	}
+//	else if ((isXieyue(x1, y1, x2, y2, x3, y3) ||
+//		isQiuyue(x1, y1, x2, y2, x3, y3) ||
+//		isSongyue(x1, y1, x2, y2, x3, y3) ||
+//		isMingyue(x1, y1, x2, y2, x3, y3) ||
+//		isYinyue(x1, y1, x2, y2, x3, y3) ||
+//		isCanyue(x1, y1, x2, y2, x3, y3) ||
+//		isXinyue(x1, y1, x2, y2, x3, y3) ||
+//		isShanyue(x1, y1, x2, y2, x3, y3)) && N5 <= 3)
+//	{
+//		//换手
+//		return 1;
+//	}
+//	else if ((isYouxing(x1, y1, x2, y2, x3, y3) ||
+//		isHuixing(x1, y1, x2, y2, x3, y3)) && N5 == 1)
+//	{
+//		//换手
+//		return 1;
+//	}
+//	else if ((isLiuxing(x1, y1, x2, y2, x3, y3) ||
+//		isChangxing(x1, y1, x2, y2, x3, y3)) && N5 == 1)
+//	{
+//		//换手
+//		return 1;
+//	}
+//	else if ((isRuixing(x1, y1, x2, y2, x3, y3) ||
+//		isShuxing(x1, y1, x2, y2, x3, y3)) && N5 <= 2)
+//	{
+//		//换手
+//		return 1;
+//	}
+//	else {
+//		//不换手
+//		return 0;
+//	}
+//
+//}
 
 //void Game::ThreeSteps() // 三步换手
 //{

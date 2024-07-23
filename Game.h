@@ -76,7 +76,7 @@ public:
 	void AIGo();// µçÄÔÐÐÆå
 
 	Point FiveSteps(int n);
-
+	vector<Point> FiveStepsBlackPointRet();
 	int setFiveStepsWay(int n)
 	{
 		N5 = n;
