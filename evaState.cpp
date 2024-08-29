@@ -3,16 +3,14 @@
 
 int Game::StateCheck(const Point& a, int color)
 {
-	if (a.x > mx)//确定棋盘有效最大范围
-		mx = a.x;
-	if (a.y > my)
-		my = a.y;
-	if (a.x < minx)
-		minx = a.x;
-	if (a.y < miny)
-		miny = a.y;
-	int nvisx = 14 - mx;//当前不需搜索的范围(minx miny)
-	int nvisy = 14 - my ;
+	//if (a.x > mx)//确定棋盘有效最大范围
+	//	lmx = a.x;
+	//if (a.y > my)
+	//	lmy = a.y;
+	//if (a.x < minx)
+	//	lminx = a.x;
+	//if (a.y < miny)
+	//	lminy = a.y;
 	//数组下标代表方向
 	int adjsame[8] = { 0 }; //记录与（x,y）相邻的连续黑棋子数
 	int adjempty[8] = { 0 }; //记录adjsame后的相邻连续空位数
@@ -45,123 +43,122 @@ int Game::StateCheck(const Point& a, int color)
 	// p [横轴][纵轴]
 	//棋盘盘面搜索-------------------------------------------------------------
 	int _x, _y;
-
 	//向左搜索  左
 	{
-		for (_y = a.y - 1; _y >= miny && Board[a.x][_y] == color; _y--, adjsame[6]++);
-		for (; _y >= miny && Board[a.x][_y] == EMPTY; _y--, adjempty[6]++);
-		for (; _y >= miny && Board[a.x][_y] == color; _y--, jumpsame[6]++);
-		for (; _y >= miny && Board[a.x][_y] == EMPTY; _y--, jumpempty[6]++);
-		for (; _y >= miny && Board[a.x][_y] == color; _y--, jumpjumpsame[6]++);
-		for (; _y >= miny && Board[a.x][_y] == EMPTY; _y--, jumpjumpempty[6]++);
+		for (_y = a.y - 1; _y >= 0 && Board[a.x][_y] == color; _y--, adjsame[6]++);
+		for (; _y >= 0 && Board[a.x][_y] == EMPTY; _y--, adjempty[6]++);
+		for (; _y >= 0 && Board[a.x][_y] == color; _y--, jumpsame[6]++);
+		for (; _y >= 0 && Board[a.x][_y] == EMPTY; _y--, jumpempty[6]++);
+		for (; _y >= 0 && Board[a.x][_y] == color; _y--, jumpjumpsame[6]++);
+		for (; _y >= 0 && Board[a.x][_y] == EMPTY; _y--, jumpjumpempty[6]++);
 		//左下搜索
-		for (_x = a.x + 1, _y = a.y - 1; _x < mx && _y >= miny && Board[_x][_y] == color; _x++, _y--, adjsame[5]++);
-		for (; _x < mx && _y >= miny && Board[_x][_y] == EMPTY; _x++, _y--, adjempty[5]++);
-		for (; _x < mx && _y >= miny && Board[_x][_y] == color; _x++, _y--, jumpsame[5]++);
-		for (; _x < mx && _y >= miny && Board[_x][_y] == EMPTY; _x++, _y--, jumpempty[5]++);
-		for (; _x < mx && _y >= miny && Board[_x][_y] == color; _x++, _y--, jumpjumpsame[5]++);
-		for (; _x < mx && _y >= miny && Board[_x][_y] == EMPTY; _x++, _y--, jumpjumpempty[5]++);
+		for (_x = a.x + 1, _y = a.y - 1; _x < 15 && _y >= 0 && Board[_x][_y] == color; _x++, _y--, adjsame[5]++);
+		for (; _x < 15 && _y >= 0 && Board[_x][_y] == EMPTY; _x++, _y--, adjempty[5]++);
+		for (; _x < 15 && _y >= 0 && Board[_x][_y] == color; _x++, _y--, jumpsame[5]++);
+		for (; _x < 15 && _y >= 0 && Board[_x][_y] == EMPTY; _x++, _y--, jumpempty[5]++);
+		for (; _x < 15 && _y >= 0 && Board[_x][_y] == color; _x++, _y--, jumpjumpsame[5]++);
+		for (; _x < 15 && _y >= 0 && Board[_x][_y] == EMPTY; _x++, _y--, jumpjumpempty[5]++);
 		//向下搜索
-		for (_x = a.x + 1; _x < mx && Board[_x][a.y] == color; _x++, adjsame[4]++);
-		for (; _x < mx && Board[_x][a.y] == EMPTY; _x++, adjempty[4]++);
-		for (; _x < mx && Board[_x][a.y] == color; _x++, jumpsame[4]++);
-		for (; _x < mx && Board[_x][a.y] == EMPTY; _x++, jumpempty[4]++);
-		for (; _x < mx && Board[_x][a.y] == color; _x++, jumpjumpsame[4]++);
-		for (; _x < mx && Board[_x][a.y] == EMPTY; _x++, jumpjumpempty[4]++);
+		for (_x = a.x + 1; _x < 15 && Board[_x][a.y] == color; _x++, adjsame[4]++);
+		for (; _x < 15 && Board[_x][a.y] == EMPTY; _x++, adjempty[4]++);
+		for (; _x < 15 && Board[_x][a.y] == color; _x++, jumpsame[4]++);
+		for (; _x < 15 && Board[_x][a.y] == EMPTY; _x++, jumpempty[4]++);
+		for (; _x < 15 && Board[_x][a.y] == color; _x++, jumpjumpsame[4]++);
+		for (; _x < 15 && Board[_x][a.y] == EMPTY; _x++, jumpjumpempty[4]++);
 		//向右下搜索
-		for (_x = a.x + 1, _y = a.y + 1; _x < mx && _y < my && Board[_x][_y] == color; _x++, _y++, adjsame[3]++);
-		for (; _x < mx && _y < my && Board[_x][_y] == EMPTY; _x++, _y++, adjempty[3]++);
-		for (; _x < mx && _y < my && Board[_x][_y] == color; _x++, _y++, jumpsame[3]++);
-		for (; _x < mx && _y < my && Board[_x][_y] == EMPTY; _x++, _y++, jumpempty[3]++);
-		for (; _x < mx && _y < my && Board[_x][_y] == color; _x++, _y++, jumpjumpsame[3]++);
-		for (; _x < mx && _y < my && Board[_x][_y] == EMPTY; _x++, _y++, jumpjumpempty[3]++);
+		for (_x = a.x + 1, _y = a.y + 1; _x < 15 && _y < 15 && Board[_x][_y] == color; _x++, _y++, adjsame[3]++);
+		for (; _x < 15 && _y < 15 && Board[_x][_y] == EMPTY; _x++, _y++, adjempty[3]++);
+		for (; _x < 15 && _y < 15 && Board[_x][_y] == color; _x++, _y++, jumpsame[3]++);
+		for (; _x < 15 && _y < 15 && Board[_x][_y] == EMPTY; _x++, _y++, jumpempty[3]++);
+		for (; _x < 15 && _y < 15 && Board[_x][_y] == color; _x++, _y++, jumpjumpsame[3]++);
+		for (; _x < 15 && _y < 15 && Board[_x][_y] == EMPTY; _x++, _y++, jumpjumpempty[3]++);
 		//向右搜索
-		for (_y = a.y + 1; _y < my && Board[a.x][_y] == color; _y++, adjsame[2]++);
-		for (; _y < my && Board[a.x][_y] == EMPTY; _y++, adjempty[2]++);
-		for (; _y < my && Board[a.x][_y] == color; _y++, jumpsame[2]++);
-		for (; _y < my && Board[a.x][_y] == EMPTY; _y++, jumpempty[2]++);
-		for (; _y < my && Board[a.x][_y] == color; _y++, jumpjumpsame[2]++);
-		for (; _y < my && Board[a.x][_y] == EMPTY; _y++, jumpjumpempty[2]++);
+		for (_y = a.y + 1; _y < 15 && Board[a.x][_y] == color; _y++, adjsame[2]++);
+		for (; _y < 15 && Board[a.x][_y] == EMPTY; _y++, adjempty[2]++);
+		for (; _y < 15 && Board[a.x][_y] == color; _y++, jumpsame[2]++);
+		for (; _y < 15 && Board[a.x][_y] == EMPTY; _y++, jumpempty[2]++);
+		for (; _y < 15 && Board[a.x][_y] == color; _y++, jumpjumpsame[2]++);
+		for (; _y < 15 && Board[a.x][_y] == EMPTY; _y++, jumpjumpempty[2]++);
 		//向右上搜索
-		for (_x = a.x - 1, _y = a.y + 1; _x >= minx && _y < my && Board[_x][_y] == color; _x--, _y++, adjsame[1]++);
-		for (; _x >= minx && _y < my && Board[_x][_y] == EMPTY; _x--, _y++, adjempty[1]++);
-		for (; _x >= minx && _y < my && Board[_x][_y] == color; _x--, _y++, jumpsame[1]++);
-		for (; _x >= minx && _y < my && Board[_x][_y] == EMPTY; _x--, _y++, jumpempty[1]++);
-		for (; _x >= minx && _y < my && Board[_x][_y] == color; _x--, _y++, jumpjumpsame[1]++);
-		for (; _x >= minx && _y < my && Board[_x][_y] == EMPTY; _x--, _y++, jumpjumpempty[1]++);
+		for (_x = a.x - 1, _y = a.y + 1; _x >= 0 && _y < 15 && Board[_x][_y] == color; _x--, _y++, adjsame[1]++);
+		for (; _x >= 0 && _y < 15 && Board[_x][_y] == EMPTY; _x--, _y++, adjempty[1]++);
+		for (; _x >= 0 && _y < 15 && Board[_x][_y] == color; _x--, _y++, jumpsame[1]++);
+		for (; _x >= 0 && _y < 15 && Board[_x][_y] == EMPTY; _x--, _y++, jumpempty[1]++);
+		for (; _x >= 0 && _y < 15 && Board[_x][_y] == color; _x--, _y++, jumpjumpsame[1]++);
+		for (; _x >= 0 && _y < 15 && Board[_x][_y] == EMPTY; _x--, _y++, jumpjumpempty[1]++);
 		//向上搜索
-		for (_x = a.x - 1; _x >= minx && Board[_x][a.y] == color; _x--, adjsame[0]++);
-		for (; _x >= minx && Board[_x][a.y] == EMPTY; _x--, adjempty[0]++);
-		for (; _x >= minx && Board[_x][a.y] == color; _x--, jumpsame[0]++);
-		for (; _x >= minx && Board[_x][a.y] == EMPTY; _x--, jumpempty[0]++);
-		for (; _x >= minx && Board[_x][a.y] == color; _x--, jumpjumpsame[0]++);	
-		for (; _x >= minx && Board[_x][a.y] == EMPTY; _x--, jumpjumpempty[0]++);
+		for (_x = a.x - 1; _x >= 0 && Board[_x][a.y] == color; _x--, adjsame[0]++);
+		for (; _x >= 0 && Board[_x][a.y] == EMPTY; _x--, adjempty[0]++);
+		for (; _x >= 0 && Board[_x][a.y] == color; _x--, jumpsame[0]++);
+		for (; _x >= 0 && Board[_x][a.y] == EMPTY; _x--, jumpempty[0]++);
+		for (; _x >= 0 && Board[_x][a.y] == color; _x--, jumpjumpsame[0]++);
+		for (; _x >= 0 && Board[_x][a.y] == EMPTY; _x--, jumpjumpempty[0]++);
 		//向左上搜索
-		for (_x = a.x - 1, _y = a.y - 1; _x >= minx && _y >= miny && Board[_x][_y] == color; _x--, _y--, adjsame[7]++);
-		for (; _x >= minx && _y >= miny && Board[_x][_y] == EMPTY; _x--, _y--, adjempty[7]++);
-		for (; _x >= minx && _y >= miny && Board[_x][_y] == color; _x--, _y--, jumpsame[7]++);
-		for (; _x >= minx && _y >= miny && Board[_x][_y] == EMPTY; _x--, _y--, jumpempty[7]++);
-		for (; _x >= minx && _y >= miny && Board[_x][_y] == color; _x--, _y--, jumpjumpsame[7]++);
-		for (; _x >= minx && _y >= miny && Board[_x][_y] == EMPTY; _x--, _y--, jumpjumpempty[7]++);
+		for (_x = a.x - 1, _y = a.y - 1; _x >= 0 && _y >= 0 && Board[_x][_y] == color; _x--, _y--, adjsame[7]++);
+		for (; _x >= 0 && _y >= 0 && Board[_x][_y] == EMPTY; _x--, _y--, adjempty[7]++);
+		for (; _x >= 0 && _y >= 0 && Board[_x][_y] == color; _x--, _y--, jumpsame[7]++);
+		for (; _x >= 0 && _y >= 0 && Board[_x][_y] == EMPTY; _x--, _y--, jumpempty[7]++);
+		for (; _x >= 0 && _y >= 0 && Board[_x][_y] == color; _x--, _y--, jumpjumpsame[7]++);
+		for (; _x >= 0 && _y >= 0 && Board[_x][_y] == EMPTY; _x--, _y--, jumpjumpempty[7]++);
 		// ----------------------------------------------------------------------------------------------------------------
-		int ii = 0;
-		if (jumpsame[ii] == 0 && adjsame[ii] != 0)//上
-			adjempty[ii] = minx;
-		else if (jumpsame[ii] != 0 && jumpjumpsame[ii] == 0)
-			jumpempty[ii] = minx;
-		else if (jumpjumpsame[ii] != 0)
-			jumpjumpempty[ii] = minx;
-		ii++;//1
-		if (jumpsame[ii] == 0 && adjsame[ii] != 0)//右上
-			adjempty[ii] = min(minx, 14 - my);
-		else if (jumpsame[ii] != 0 && jumpjumpsame[ii] == 0)
-			jumpempty[ii] = min(minx, 14 - my);
-		else if (jumpjumpsame[ii] != 0)
-			jumpjumpempty[ii] = min(minx, 14 - my);
-		ii++;//2
-		if (jumpsame[ii] == 0 && adjsame[ii] != 0)//右
-			adjempty[ii] = 14 - my;
-		else if (jumpsame[ii] != 0 && jumpjumpsame[ii] == 0)
-			jumpempty[ii] = 14 - my;
-		else if (jumpjumpsame[ii] != 0)
-			jumpjumpempty[ii] = 14 - my;
-		ii++;//3
-		if (jumpsame[ii] == 0 && adjsame[ii] != 0)//右下
-			adjempty[ii] = min(14 - mx, 14 - my);
-		else if (jumpsame[ii] != 0 && jumpjumpsame[ii] == 0)
-			jumpempty[ii] = min(14 - mx, 14 - my);
-		else if (jumpjumpsame[ii] != 0)
-			jumpjumpempty[ii] = min(14 - mx, 14 - my);
-		ii++;//4
-		if (jumpsame[ii] == 0 && adjsame[ii] != 0)//下
-			adjempty[ii] = 14-mx;
-		else if (jumpsame[ii] != 0 && jumpjumpsame[ii] == 0)
-			jumpempty[ii] = 14 - mx;
-		else if (jumpjumpsame[ii] != 0)
-			jumpjumpempty[ii] = 14 - mx;
-		ii++;//5
-		if (jumpsame[ii] == 0 && adjsame[ii] != 0)//左下
-			adjempty[ii] = min(my, 14 - mx);
-		else if (jumpsame[ii] != 0 && jumpjumpsame[ii] == 0)
-			jumpempty[ii] = min(my, 14 - mx);
-		else if (jumpjumpsame[ii] != 0)
-			jumpjumpempty[ii] = min(my, 14 - mx);
-		ii++;//6
-		if (jumpsame[ii] == 0 && adjsame[ii] != 0)//左
-			adjempty[ii] = miny;
-		else if (jumpsame[ii] != 0 && jumpjumpsame[ii] == 0)
-			jumpempty[ii] = miny;
-		else if (jumpjumpsame[ii] != 0)
-			jumpjumpempty[ii] = miny;
-		ii++;//7
-		if (jumpsame[ii] == 0 && adjsame[ii] != 0)//左上
-			adjempty[ii] = min(miny, minx);
-		else if (jumpsame[ii] != 0 && jumpjumpsame[ii] == 0)
-			jumpempty[ii] = min(miny, minx);
-		else if (jumpjumpsame[ii] != 0)
-			jumpjumpempty[ii] = min(miny, minx);
-		
-	
+		//int ii = 0;
+		//if (jumpsame[ii] == 0 && adjsame[ii] != 0)//上
+		//	adjempty[ii] = lminx;
+	 //   else if (jumpsame[ii] != 0 && jumpjumpsame[ii] == 0)
+		//	jumpempty[ii] = lminx;
+		//else if (jumpjumpsame[ii] != 0)
+		//	jumpjumpempty[ii] = lminx;
+		//ii++;//1
+		//if (jumpsame[ii] == 0 && adjsame[ii] != 0)//右上
+		//	adjempty[ii] = min(lminx, 14 - lmy);
+		//else if (jumpsame[ii] != 0 && jumpjumpsame[ii] == 0)
+		//	jumpempty[ii] = min(lminx, 14 - lmy);
+		//else if (jumpjumpsame[ii] != 0)
+		//	jumpjumpempty[ii] = min(lminx, 14 - lmy);
+		//ii++;//2
+		//if (jumpsame[ii] == 0 && adjsame[ii] != 0)//右
+		//	adjempty[ii] = 14 - lmy;
+		//else if (jumpsame[ii] != 0 && jumpjumpsame[ii] == 0)
+		//	jumpempty[ii] = 14 - lmy;
+		//else if (jumpjumpsame[ii] != 0)
+		//	jumpjumpempty[ii] = 14 - lmy;
+		//ii++;//3
+		//if (jumpsame[ii] == 0 && adjsame[ii] != 0)//右下
+		//	adjempty[ii] = min(14 - lmx, 14 - lmy);
+		//else if (jumpsame[ii] != 0 && jumpjumpsame[ii] == 0)
+		//	jumpempty[ii] = min(14 - lmx, 14 - lmy);
+		//else if (jumpjumpsame[ii] != 0)
+		//	jumpjumpempty[ii] = min(14 - lmx, 14 - lmy);
+		//ii++;//4
+		//if (jumpsame[ii] == 0 && adjsame[ii] != 0)//下
+		//	adjempty[ii] = 14-lmx;
+		//else if (jumpsame[ii] != 0 && jumpjumpsame[ii] == 0)
+		//	jumpempty[ii] = 14 - lmx;
+		//else if (jumpjumpsame[ii] != 0)
+		//	jumpjumpempty[ii] = 14 - lmx;
+		//ii++;//5
+		//if (jumpsame[ii] == 0 && adjsame[ii] != 0)//左下
+		//	adjempty[ii] = min(lmy, 14 - lmx);
+		//else if (jumpsame[ii] != 0 && jumpjumpsame[ii] == 0)
+		//	jumpempty[ii] = min(lmy, 14 - lmx);
+		//else if (jumpjumpsame[ii] != 0)
+		//	jumpjumpempty[ii] = min(lmy, 14 - lmx);
+		//ii++;//6
+		//if (jumpsame[ii] == 0 && adjsame[ii] != 0)//左
+		//	adjempty[ii] = lminy;
+		//else if (jumpsame[ii] != 0 && jumpjumpsame[ii] == 0)
+		//	jumpempty[ii] = lminy;
+		//else if (jumpjumpsame[ii] != 0)
+		//	jumpjumpempty[ii] = lminy;
+		//ii++;//7
+		//if (jumpsame[ii] == 0 && adjsame[ii] != 0)//左上
+		//	adjempty[ii] = min(lminy, lminx);
+		//else if (jumpsame[ii] != 0 && jumpjumpsame[ii] == 0)
+	 //   	jumpempty[ii] = min(lminy, lminx);
+		//else if (jumpjumpsame[ii] != 0)
+		//	jumpjumpempty[ii] = min(lminy, lminx);
+		//
+		//lminy = miny; lminx = minx; lmx = mx; lmy = my;
 	}
 	if (color == black)
 	{
@@ -535,9 +532,18 @@ int Game::EvaluateALL()//局面打分函数   这个函数还有一个功能，在每一次下子之后都
 {
 	int AIStateScore = 0;
 	int PlayerStateScore = 0;
-	for (int i = 0; i < N; i++)
+	int NX = 0, NY = 0, MX = 0, MY = 0;
+	if (mx + 3 <= 14)
+		MX = mx + 4;
+	if (my + 3 <= 14)
+		MY = my + 4;
+	if (minx - 3 >= 0)
+		NX = minx - 4;
+	if (miny - 3 >= 0)
+		NY = miny - 4;
+	for (int i = NX; i < MX; i++)
 	{
-		for (int j = 0; j < N; j++)
+		for (int j = NY; j < MY; j++)
 		{
 			if (Board[i][j] != EMPTY)
 			{

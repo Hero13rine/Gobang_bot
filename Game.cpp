@@ -69,10 +69,19 @@ Point Game::best()
 {
 	Point b(-1, -1);
 	// 初始分值为最小
+	int NX = 0, NY = 0, MX = 0, MY = 0;
+	if (mx + 3 <= 14)
+		MX = mx + 4;
+	if (my + 3 <= 14)
+		MY = my + 4;
+	if (minx - 3 >= 0)
+		NX = minx - 4;
+	if (miny - 3 >= 0)
+		NY = miny - 4;
 	int score = -99999999;
 	/* 遍历所有能下棋的点位，评估各个点位的分值，选择分值最大的点位 */
-	for (int i = 0; i < 15; i++) {
-		for (int j = 0; j < 15.; j++) {
+	for (int i = NX; i < MX; i++) {
+		for (int j = NY; j < MY; j++) {
 			if (Board[i][j] != 0) {
 				// 该点已有棋子，跳过
 				continue;
@@ -115,13 +124,14 @@ Point Game::getBestPointformList(vector<Point> PointList)
 void Game::go(int nx, int ny, int color) //仅仅是落子，不负责判断棋盘，判断棋盘在AIgo 和 Player go 里
 {;
 	Board[nx][ny] = color;
-	if (nx > mx)//确定棋盘有效最大范围
+	step++;
+	if (nx >= mx)//确定棋盘有效最大范围
 		mx = nx;
-	if (ny > my)
+	if (ny >= my)
 		my = ny;
-	if (nx < minx)
+	if (nx <= minx)
 		minx = nx;
-	if (ny < miny)
+	if (ny <= miny)
 		miny = ny;
 	//printboard();
 	Point np(nx, ny);
@@ -219,6 +229,90 @@ void Game::AIGo()
 	{
 		ThreeSteps();
 	}*/
+	if (step == 0)
+	{
+		np.x = 7;
+		np.y = 7;
+		LastComStep.x = np.x;
+		LastComStep.y = np.y;
+
+		std::cout << "AILuoZI" << " " << np.x << " " << np.y;
+		go(np.x, np.y, m_computercolor);
+		return;
+	}
+	if (step == 1)
+	{
+		int type = rand() % 2 + 1;
+		switch (type)
+		{
+		case 1:np.x = 8;
+			np.y = 6;
+			LastComStep.x = np.x;
+			LastComStep.y = np.y;
+
+			std::cout << "AILuoZI" << " " << np.x << " " << np.y;
+			go(np.x, np.y, m_computercolor);
+			return;
+		case 2:	np.x = 8;
+			np.y = 8;
+			LastComStep.x = np.x;
+			LastComStep.y = np.y;
+
+			std::cout << "AILuoZI" << " " << np.x << " " << np.y;
+			go(np.x, np.y, m_computercolor);
+			return;
+		}
+	}
+	if (step == 2)
+	{
+
+		if (Board[7][9] == black || Board[6][9] == black || Board[6][8] == black || Board[6][7] == black
+			|| Board[6][6] == black || Board[5][6] == black  || Board[5][5] == black)
+		{
+			np.x = 7;
+			np.y = 8;
+			LastComStep.x = np.x;
+			LastComStep.y = np.y;
+
+			std::cout << "AILuoZI" << " " << np.x << " " << np.y;
+			go(np.x, np.y, m_computercolor);
+			return;
+		}
+		if (Board[5][9] == black || Board[5][8] == black || Board[5][7] == black || Board[5][6] == black  || Board[6][7] == black
+			|| Board[6][6] == black || Board[6][5] == black || Board[7][6] == black || Board[7][5] == black || Board[8][6] == black || Board[8][5] == black || Board[9][5] == black)
+		{
+			np.x = 6;
+			np.y = 8;
+			LastComStep.x = np.x;
+			LastComStep.y = np.y;
+
+			std::cout << "AILuoZI" << " " << np.x << " " << np.y;
+			go(np.x, np.y, m_computercolor);
+			return;
+		}
+		/*if (Board[7][8] == EMPTY)
+		{
+			np.x = 7;
+			np.y = 8;
+			LastComStep.x = np.x;
+			LastComStep.y = np.y;
+
+			std::cout << "AILuoZI" << " " << np.x << " " << np.y;
+			go(np.x, np.y, m_computercolor);
+			return;
+		}
+		else
+		{
+			np.x = 8;
+			np.y = 6;
+			LastComStep.x = np.x;
+			LastComStep.y = np.y;
+
+			std::cout << "AILuoZI" << " " << np.x << " " << np.y;
+			go(np.x, np.y, m_computercolor);
+			return;
+		}*/
+	}
 	if (step < 9 && step != 4)
 	{
 		Point vcfPoint = deepening(14, 14, 1);//vcf

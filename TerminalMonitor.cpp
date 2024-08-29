@@ -284,8 +284,7 @@ void TerminalMonitor::SetBWP1LuoZI(int x, int y)
 Point TerminalMonitor::GetBWP2Selct()
 {
 	//白方返回选择的黑子坐标
-	Point a;
-	a.x = -1; a.y = -1;
+	Point a(- 1,- 1);
 	// 进入minimax;
 	a = AI->minimax(BWP1NPPos);
 	BangP2ChessStep += 1;

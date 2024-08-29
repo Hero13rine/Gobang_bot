@@ -125,7 +125,9 @@ public:
 	int winner = 0;
 	string first, next; //悔棋
 	int step = 0;
-	int minx = 0, miny = 0, mx = 0, my = 0;//记录当前棋盘最大有效范围
+	int minx = 15, miny = 15, mx = 0, my = 0;//记录当前棋盘最大有效范围
+	int lminx = 5, lminy = 5, lmx = 9, lmy = 9;
+	int newx, newy;//当前查找点的坐标 查找的最大范围
 
 
 
